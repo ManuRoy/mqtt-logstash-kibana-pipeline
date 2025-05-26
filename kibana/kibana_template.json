@@ -1,6 +1,0 @@
-{
-  "attributes": {
-    "title": "iot-*",
-    "timeFieldName": "@timestamp"
-  }
-}
