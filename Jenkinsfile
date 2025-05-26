@@ -46,7 +46,7 @@ pipeline {
                 curl -X POST -u $ELASTIC_USER:$ELASTIC_PASS \
                      -H "kbn-xsrf: true" \
                      -H "Content-Type: application/json" \
-                     -d @kibana/kibana_template.json \
+                     -d @kibana_template.json \
                      "$KIBANA_HOST/api/saved_objects/index-pattern/iot-*?overwrite=true"
                 '''
             }
