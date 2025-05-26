@@ -1,0 +1,20 @@
+{
+  "index_patterns": ["iot-*"],
+  "template": {
+    "mappings": {
+      "properties": {
+        "temperature": {
+          "type": "float"
+        },
+        "humidity": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "date"
+        }
+      }
+    }
+  },
+  "priority": 1,
+  "data_stream": {}
+}
