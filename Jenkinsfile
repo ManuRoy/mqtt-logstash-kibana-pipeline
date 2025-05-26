@@ -34,7 +34,7 @@ pipeline {
                 sh '''
                 curl -X PUT -u $ELASTIC_USER:$ELASTIC_PASS \
                      -H "Content-Type: application/json" \
-                     -d @kibana/iot_index_template.json \
+                     -d @iot_index_template.json \
                      $ES_HOST/_index_template/iot-index-template
                 '''
             }
