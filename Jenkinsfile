@@ -1,13 +1,15 @@
 pipeline {
     agent any
+
     environment {
         ELASTIC_USER = "elastic"
         ELASTIC_PASS = "PlnLz35OqHQ1UAOLqo8b"
-        KIBANA_HOST = "http://localhost:5601"
-        ES_HOST = "http://localhost:9200"
+        KIBANA_HOST  = "http://localhost:5601"
+        ES_HOST      = "http://localhost:9200"
     }
 
     stages {
+
         stage('Deploy Node-RED Flow') {
             steps {
                 sh '''
@@ -27,13 +29,25 @@ pipeline {
             }
         }
 
-        stage('Register Kibana Index Template') {
+        stage('Register Elasticsearch Index Template') {
             steps {
                 sh '''
                 curl -X PUT -u $ELASTIC_USER:$ELASTIC_PASS \
                      -H "Content-Type: application/json" \
                      -d @kibana/iot_index_template.json \
                      $ES_HOST/_index_template/iot-index-template
+                '''
+            }
+        }
+
+        stage('Register Kibana Index Pattern') {
+            steps {
+                sh '''
+                curl -X POST -u $ELASTIC_USER:$ELASTIC_PASS \
+                     -H "kbn-xsrf: true" \
+                     -H "Content-Type: application/json" \
+                     -d @kibana/kibana_template.json \
+                     "$KIBANA_HOST/api/saved_objects/index-pattern/iot-*?overwrite=true"
                 '''
             }
         }
