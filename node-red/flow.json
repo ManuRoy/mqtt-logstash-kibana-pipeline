@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mqtt-inject",
+    "type": "inject",
+    "name": "Send Sample MQTT",
+    "props": [
+      { "p": "payload" },
+      { "p": "topic", "vt": "str" }
+    ],
+    "repeat": "",
+    "once": false,
+    "topic": "iot/sensor",
+    "payload": "{\"temperature\": 24.5, \"humidity\": 60}",
+    "payloadType": "json",
+    "x": 100,
+    "y": 100,
+    "wires": [["mqtt-pub"]]
+  },
+  {
+    "id": "mqtt-pub",
+    "type": "mqtt out",
+    "name": "MQTT Publish",
+    "topic": "iot/sensor",
+    "qos": "",
+    "retain": "",
+    "broker": "mqtt-broker",
+    "x": 300,
+    "y": 100,
+    "wires": []
+  },
+  {
+    "id": "mqtt-broker",
+    "type": "mqtt-broker",
+    "name": "Local MQTT",
+    "broker": "localhost",
+    "port": "1883"
+  }
+]
