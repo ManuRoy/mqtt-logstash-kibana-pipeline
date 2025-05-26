@@ -4,8 +4,8 @@ pipeline {
     environment {
         ELASTIC_USER = "elastic"
         ELASTIC_PASS = "PlnLz35OqHQ1UAOLqo8b"
-        KIBANA_HOST  = "http://localhost:5601"
-        ES_HOST      = "http://localhost:9200"
+        KIBANA_HOST  = "http://localhost:5601"     // Change to https:// if Kibana uses HTTPS
+        ES_HOST      = "https://localhost:9200"    // Elasticsearch uses HTTPS
     }
 
     stages {
@@ -33,6 +33,7 @@ pipeline {
             steps {
                 sh '''
                 curl -X PUT -u $ELASTIC_USER:$ELASTIC_PASS \
+                     --insecure \
                      -H "Content-Type: application/json" \
                      -d @iot_index_template.json \
                      $ES_HOST/_index_template/iot-index-template
@@ -44,6 +45,7 @@ pipeline {
             steps {
                 sh '''
                 curl -X POST -u $ELASTIC_USER:$ELASTIC_PASS \
+                     --insecure \
                      -H "kbn-xsrf: true" \
                      -H "Content-Type: application/json" \
                      -d @kibana_template.json \
@@ -65,7 +67,7 @@ pipeline {
                 sh '''
                 echo "Waiting 10 seconds for Logstash to process data..."
                 sleep 10
-                curl -u $ELASTIC_USER:$ELASTIC_PASS $ES_HOST/_cat/indices?v
+                curl -u $ELASTIC_USER:$ELASTIC_PASS --insecure $ES_HOST/_cat/indices?v
                 '''
             }
         }
